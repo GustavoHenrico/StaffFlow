@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Manager Create";
+}
+
+<div>
+    <h1 class="text-xl-start">Create Manager</h1>
+    <form method="post">
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="department">Department</label>
+            <input type="text" class="form-control" id="department" name="department" placeholder="Enter department">
+        </div>
+
+        <div class="d-flex align-items-end justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
