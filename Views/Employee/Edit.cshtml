@@ -1,4 +1,4 @@
-@model Employee
+@model EmployeeEditViewModel
 
 @{
     ViewData["Title"] = "Edit Employee";
@@ -10,24 +10,43 @@
 
         <div class="d-none form-group">
             <label for="id">Id</label>
-            <input disabled type="text" class="form-control" id="id" name="id" placeholder="Enter Id" value="@Model.Id">
+            <input disabled type="text" class="form-control" id="id" name="id" placeholder="Enter Id"
+                value="@Model.Employee.Id">
         </div>
 
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="Name" placeholder="Enter name" value="@Model.Name">
+            <input type="text" class="form-control" id="name" name="Name" placeholder="Enter name"
+                value="@Model.Employee.Name">
         </div>
 
         <div class="form-group mt-3">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="Email" placeholder="Enter email"
-                value="@Model.Email">
+                value="@Model.Employee.Email">
         </div>
 
         <div class="form-group mt-3">
             <label for="department">Department</label>
             <input type="text" class="form-control" id="department" name="Department" placeholder="Enter department"
-                value="@Model.Department">
+                value="@Model.Employee.Department">
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="managerId">Manager</label>
+            <select class="form-control" id="managerId" name="managerId">
+                @foreach (var manager in Model.Managers)
+                {
+                    if (manager.Id == Model.Employee.ManagerId)
+                    {
+                        <option value="@manager.Id" selected>@manager.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@manager.Id">@manager.Name</option>
+                    }
+                }
+            </select>
         </div>
 
         <div class="d-flex align-items-end justify-content-end mt-3">

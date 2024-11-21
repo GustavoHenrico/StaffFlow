@@ -22,12 +22,19 @@ public class ManagerController(CoreDbContext coreDb) : Controller
     [HttpGet("Manager/Delete/{id}")]
     public IActionResult Delete(Guid id)
     {
+        var Employees = coreDb.Employee.Where(x => x.ManagerId == id).ToList();
+        if (Employees.Count > 0)
+        {
+            coreDb.Employee.RemoveRange(Employees);
+            coreDb.SaveChanges();
+        }
         var Manager = coreDb.Manager.Find(id);
         if (Manager != null)
         {
             coreDb.Manager.Remove(Manager);
             coreDb.SaveChanges();
         }
+
         return RedirectToAction("Index");
     }
 

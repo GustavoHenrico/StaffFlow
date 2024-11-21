@@ -16,7 +16,8 @@ public class EmployeeController(CoreDbContext coreDb) : Controller
 
     public IActionResult Create()
     {
-        return View();
+        var managers = coreDb.Manager.ToList();
+        return View(managers);
     }
 
     [HttpGet("Employee/Delete/{id}")]
@@ -34,7 +35,16 @@ public class EmployeeController(CoreDbContext coreDb) : Controller
     public IActionResult Edit(Guid id)
     {
         var employee = coreDb.Employee.Find(id);
-        return View(employee);
+        var managers = coreDb.Manager.ToList();
+
+        // Criar o ViewModel
+        var viewModel = new EmployeeEditViewModel
+        {
+            Employee = employee,
+            Managers = managers
+        };
+
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -42,12 +52,16 @@ public class EmployeeController(CoreDbContext coreDb) : Controller
     {
         if (ModelState.IsValid)
         {
+            var manager = coreDb.Manager.Find(createEmployee.ManagerId);
+
             var newEmployee = new Employee()
             {
                 Id = Guid.NewGuid(),
                 Department = createEmployee.Department,
                 Email = createEmployee.Email,
                 Name = createEmployee.Name,
+                ManagerId = manager?.Id,
+                Manager = manager
             };
 
             coreDb.Employee.Add(newEmployee);
@@ -63,6 +77,7 @@ public class EmployeeController(CoreDbContext coreDb) : Controller
     {
         if (ModelState.IsValid)
         {
+            var manager = coreDb.Manager.Find(editEmployee.ManagerId);
             var employee = coreDb.Employee.Find(editEmployee.Id);
             if (employee == null)
             {
@@ -71,6 +86,8 @@ public class EmployeeController(CoreDbContext coreDb) : Controller
             employee.Name = editEmployee.Name;
             employee.Email = editEmployee.Email;
             employee.Department = editEmployee.Department;
+            employee.ManagerId = manager?.Id;
+            employee.Manager = manager;
 
             coreDb.Employee.Update(employee);
             coreDb.SaveChanges();
