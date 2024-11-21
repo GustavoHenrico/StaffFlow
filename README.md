@@ -30,7 +30,7 @@ Além disso, recomendamos o uso de um editor como o [Visual Studio Code](https:/
 CREATE DATABASE StaffFlow;
 GO
 
-USE StaffFlowDB;
+USE StaffFlow;
 GO
 
 CREATE TABLE Manager (
@@ -42,18 +42,21 @@ CREATE TABLE Manager (
     UpdatedAt DATETIME NULL 
 );
 
-
 CREATE TABLE Employee (
     Id UNIQUEIDENTIFIER PRIMARY KEY NOT NULL DEFAULT NEWID(), 
     Name NVARCHAR(255) NOT NULL,
     Email NVARCHAR(255) NOT NULL UNIQUE, 
     Department NVARCHAR(255) NOT NULL,
+    ManagerId UNIQUEIDENTIFIER NULL,  -- Campo que referencia o gerente (opcional)
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(), 
-    UpdatedAt DATETIME NULL, 
+    UpdatedAt DATETIME NULL,
+    CONSTRAINT FK_Employee_Manager FOREIGN KEY (ManagerId) REFERENCES Manager(Id) ON DELETE SET NULL -- Relacionamento com a tabela Manager
 );
 
 CREATE INDEX IDX_Manager_Department ON Manager(Department);
 CREATE INDEX IDX_Employee_Department ON Employee(Department);
+CREATE INDEX IDX_Employee_Manager ON Employee(ManagerId);  -- Índice para melhorar a performance ao buscar por gerente
+
    ```
 
 ## Como Rodar a Aplicação
