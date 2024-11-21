@@ -91,9 +91,11 @@ O banco de dados do StaffFlow possui as seguintes tabelas:
 | Campo       | Tipo            | Restrição   |
 |-------------|-----------------|-------------|
 | Id          | UNIQUEIDENTIFIER | PRIMARY KEY |
-| Name        | NVARCHAR(255)   | NOT NULL    |
-| Email       | NVARCHAR(255)   | UNIQUE      |
-| Department  | NVARCHAR(255)   | NOT NULL    |
+| Name        | NVARCHAR(255)    | NOT NULL    |
+| Email       | NVARCHAR(255)    | UNIQUE      |
+| Department  | NVARCHAR(255)    | NOT NULL    |
+| Manager     | Manager?	     | NULLABLE    |
+| ManagerId	  | UNIQUEIDENTIFIER?| NULLABLE    |
 
 ### Manager
 | Campo       | Tipo            | Restrição   |
